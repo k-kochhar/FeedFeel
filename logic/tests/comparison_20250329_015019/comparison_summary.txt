@@ -1,0 +1,21 @@
+Waveform Comparison Summary
+==========================
+
+Comparison: blue_car_audio.wav vs this_is_a_test_sentence_audio.wav
+  Overall Similarity: 0.6249
+  Description: Moderately similar
+  Correlation: 0.1494
+  Earth Movers Distance: 0.0482
+
+Comparison: blue_car_audio.wav vs red_car_audio.wav
+  Overall Similarity: 0.8367
+  Description: Very similar
+  Correlation: 0.7168
+  Earth Movers Distance: 0.0326
+
+Comparison: this_is_a_test_sentence_audio.wav vs red_car_audio.wav
+  Overall Similarity: 0.6249
+  Description: Moderately similar
+  Correlation: 0.1191
+  Earth Movers Distance: 0.0175
+
