@@ -4,8 +4,11 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 export const metadata = {
-  title: 'FeedFeel',
-  description: 'Control your camera feed with elegance',
+  title: 'SixthSense',
+  description: 'Transforming Vision into Touch',
+  icons: {
+    icon: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({ children }) {
