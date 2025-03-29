@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-03-29 18:14:20",
+  "num_objects": 1,
+  "processing_time_seconds": 0.0011892318725585938,
+  "objects": [
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 29,
+        "y_servo": 192
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see a person on the left bottom.",
+    "avg_x_servo": 29.0,
+    "avg_y_servo": 192.0,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-03-29 18:18:14",
+  "num_objects": 1,
+  "processing_time_seconds": 0.0008580684661865234,
+  "objects": [
+    {
+      "class_name": "bed",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 50,
+        "y_servo": 213
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see a bed on the left bottom.",
+    "avg_x_servo": 50.0,
+    "avg_y_servo": 213.0,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

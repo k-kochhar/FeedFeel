@@ -1,0 +1,104 @@
+{
+  "timestamp": "2025-03-29 18:17:59",
+  "num_objects": 9,
+  "processing_time_seconds": 0.003737926483154297,
+  "objects": [
+    {
+      "class_name": "car",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 10,
+        "y_servo": 202
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "car",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 78,
+        "y_servo": 205
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 13,
+        "y_servo": 36
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 69,
+        "y_servo": 40
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "truck",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 83,
+        "y_servo": 198
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "car",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 39,
+        "y_servo": 204
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 41,
+        "y_servo": 38
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "truck",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 22,
+        "y_servo": 198
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 94,
+        "y_servo": 38
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see 3 cars on the left bottom, 4 persons on the left top, and 2 trucks on the left bottom.",
+    "avg_x_servo": 49.888888888888886,
+    "avg_y_servo": 128.77777777777777,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

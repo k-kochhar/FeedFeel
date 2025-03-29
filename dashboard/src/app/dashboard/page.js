@@ -54,120 +54,49 @@ export default function Dashboard() {
 
 // CameraFeed component for handling video
 function CameraFeed() {
-	const videoRef = useRef(null);
 	const containerRef = useRef(null);
-	const [availableCameras, setAvailableCameras] = useState([]);
 	const [error, setError] = useState(null);
-	const [isVirtualCamera, setIsVirtualCamera] = useState(true);
-	const [videoDimensions, setVideoDimensions] = useState({
-		width: 0,
-		height: 0,
-	});
+	const [isStreamConnected, setIsStreamConnected] = useState(false);
+	const [streamUrl, setStreamUrl] = useState("http://localhost:5001/video_feed");
 
-	// Event handler to get video dimensions
-	const handleVideoMetadata = () => {
-		if (videoRef.current) {
-			const { videoWidth, videoHeight } = videoRef.current;
-			setVideoDimensions({ width: videoWidth, height: videoHeight });
-			console.log(`Video dimensions: ${videoWidth}x${videoHeight}`);
-		}
-	};
-
+	// Effect to check if the stream server is running
 	useEffect(() => {
-		// Get list of available cameras
-		async function getAvailableCameras() {
+		const checkStreamConnection = async () => {
 			try {
-				const devices = await navigator.mediaDevices.enumerateDevices();
-				const videoDevices = devices.filter(
-					(device) => device.kind === "videoinput"
-				);
-				setAvailableCameras(videoDevices);
-			} catch (err) {
-				console.error("Error getting devices:", err);
-				setError("Failed to get camera devices");
-			}
-		}
-
-		getAvailableCameras();
-	}, []);
-
-	useEffect(() => {
-		async function setupCamera() {
-			try {
-				// Stop any existing stream
-				if (videoRef.current && videoRef.current.srcObject) {
-					const tracks = videoRef.current.srcObject.getTracks();
-					tracks.forEach((track) => track.stop());
-				}
-
-				setError(null);
-
-				// Try to find the virtual camera by name
-				const virtualCameraPatterns = [
-					/virtual/i,
-					/cam link/i,
-					/obs/i,
-					/droidcam/i,
-					/iriun/i,
-					/phone/i,
-					/mobile/i,
-				];
-
-				const virtualCam = availableCameras.find((device) =>
-					virtualCameraPatterns.some((pattern) => pattern.test(device.label))
-				);
-
-				// Find system camera as fallback
-				const systemCam = availableCameras.find(
-					(device) => !/virtual|obs|droidcam|iriun|cam link/i.test(device.label)
-				);
-
-				// Use virtual camera if available, otherwise use system camera
-				const selectedCamera = virtualCam || systemCam;
-				setIsVirtualCamera(!!virtualCam && selectedCamera === virtualCam);
-
-				if (!selectedCamera) {
-					setError("No camera detected. Please connect a camera.");
-					return;
-				}
-
-				const constraints = {
-					video: {
-						deviceId: { exact: selectedCamera.deviceId },
-						// Don't specify dimensions to get native camera resolution
-					},
-				};
-
-				const stream = await navigator.mediaDevices.getUserMedia(constraints);
-
-				if (videoRef.current) {
-					videoRef.current.srcObject = stream;
+				// Try to connect to the stream server root to verify it's running
+				const response = await fetch("http://localhost:5001/");
+				if (response.ok) {
+					setIsStreamConnected(true);
+					setError(null);
+				} else {
+					setIsStreamConnected(false);
+					setError("Stream server is running but returned an error");
 				}
 			} catch (err) {
-				console.error("Error accessing camera:", err);
-				setError(`Failed to access camera: ${err.message}`);
-			}
-		}
-
-		if (availableCameras.length > 0) {
-			setupCamera();
-		}
-
-		// Cleanup function - store ref in variable to avoid stale reference
-		const videoRefValue = videoRef.current;
-		return () => {
-			if (videoRefValue && videoRefValue.srcObject) {
-				const tracks = videoRefValue.srcObject.getTracks();
-				tracks.forEach((track) => track.stop());
+				console.error("Error connecting to stream server:", err);
+				setIsStreamConnected(false);
+				setError("Cannot connect to YOLO stream server. Make sure it's running on port 5001");
 			}
 		};
-	}, [availableCameras]);
+
+		// Check connection immediately
+		checkStreamConnection();
+
+		// Set up periodic checking
+		const interval = setInterval(checkStreamConnection, 5000);
+
+		// Cleanup on unmount
+		return () => clearInterval(interval);
+	}, []);
 
 	return (
 		<div className="flex flex-col items-center">
 			{error && (
 				<div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 w-full">
 					{error}
+					<p className="text-sm mt-1">
+						Run &apos;python logic/mjpeg_stream.py&apos; to start the stream server.
+					</p>
 				</div>
 			)}
 
@@ -181,29 +110,35 @@ function CameraFeed() {
 					maxHeight: "calc(100vh - 150px)",
 				}}
 			>
-				<video
-					ref={videoRef}
-					autoPlay
-					playsInline
-					muted
-					onLoadedMetadata={handleVideoMetadata}
-					className="w-auto h-auto"
-					style={{
-						transform: isVirtualCamera ? "rotate(90deg)" : "none",
-						transformOrigin: "center center",
-						objectFit: "contain",
-						width: "auto",
-						height: isVirtualCamera ? "90%" : "auto",
-						maxHeight: "100%",
-					}}
-				/>
+				{isStreamConnected ? (
+					<img
+						src={streamUrl}
+						alt="YOLO Detection Stream"
+						className="w-auto h-auto object-contain"
+						style={{
+							maxHeight: "100%",
+							maxWidth: "100%",
+						}}
+					/>
+				) : (
+					<div className="text-center p-8 text-navy-300">
+						<VideoCameraIcon className="mx-auto h-12 w-12 text-navy-400 mb-4" />
+						<h3 className="text-lg font-medium">Stream not connected</h3>
+						<p className="mt-2">
+							Start the YOLO detection stream server to view the feed.
+						</p>
+						<p className="mt-4 text-xs text-navy-400">
+							Run &apos;python logic/mjpeg_stream.py&apos; in your terminal
+						</p>
+					</div>
+				)}
 			</div>
 
-			{videoDimensions.width > 0 && (
-				<div className="mt-2 text-xs text-navy-300">
-					Camera resolution: {videoDimensions.width}x{videoDimensions.height}
-				</div>
-			)}
+			<div className="mt-4 text-xs text-navy-300">
+				{isStreamConnected
+					? "Connected to YOLO detection stream"
+					: "Waiting for stream server connection..."}
+			</div>
 		</div>
 	);
 }

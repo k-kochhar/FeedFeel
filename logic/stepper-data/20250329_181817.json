@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-03-29 18:18:17",
+  "num_objects": 1,
+  "processing_time_seconds": 0.0009667873382568359,
+  "objects": [
+    {
+      "class_name": "sports ball",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 75,
+        "y_servo": 6
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see a sports ball in the center top.",
+    "avg_x_servo": 75.0,
+    "avg_y_servo": 6.0,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

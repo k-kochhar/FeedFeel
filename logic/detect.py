@@ -519,6 +519,7 @@ def run_yolo_detection(camera_id=0, model_size="yolov8n.pt", conf_threshold=0.25
             break
         
         # Run YOLOv8 inference
+        frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
         results = model(frame, conf=conf_threshold)
         
         # Process detections for vibration every 3 seconds (if not already processing)

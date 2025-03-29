@@ -1,0 +1,114 @@
+{
+  "timestamp": "2025-03-29 18:12:46",
+  "num_objects": 10,
+  "processing_time_seconds": 0.001605987548828125,
+  "objects": [
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 81,
+        "y_servo": 50
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "chair",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 81,
+        "y_servo": 42
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 80,
+        "y_servo": 148
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "keyboard",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 71,
+        "y_servo": 215
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 67,
+        "y_servo": 202
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "mouse",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 28,
+        "y_servo": 170
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 50,
+        "y_servo": 64
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 46,
+        "y_servo": 67
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 84,
+        "y_servo": 292
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "mouse",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 36,
+        "y_servo": 157
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see a laptop in the center bottom, a chair in the center top, 4 bottles in the center middle, a keyboard in the center bottom, a person in the center bottom, and 2 mouses on the left bottom.",
+    "avg_x_servo": 62.4,
+    "avg_y_servo": 140.7,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "timestamp": "2025-03-29 18:13:32",
+  "num_objects": 4,
+  "processing_time_seconds": 0.001277923583984375,
+  "objects": [
+    {
+      "class_name": "refrigerator",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 53,
+        "y_servo": 88
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "chair",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 74,
+        "y_servo": 145
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "dining table",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 56,
+        "y_servo": 228
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 79,
+        "y_servo": 156
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see a chair in the center bottom, a dining table on the left bottom, a refrigerator on the left middle, and a bottle in the center bottom.",
+    "avg_x_servo": 65.5,
+    "avg_y_servo": 154.25,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

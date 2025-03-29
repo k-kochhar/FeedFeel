@@ -1,0 +1,84 @@
+{
+  "timestamp": "2025-03-29 18:13:26",
+  "num_objects": 7,
+  "processing_time_seconds": 0.0013470649719238281,
+  "objects": [
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 35,
+        "y_servo": 67
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 58,
+        "y_servo": 107
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 36,
+        "y_servo": 132
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "keyboard",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 53,
+        "y_servo": 202
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 61,
+        "y_servo": 188
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "banana",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 45,
+        "y_servo": 40
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 68,
+        "y_servo": 106
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see 3 laptops in the center bottom, 2 bottles on the left middle, a keyboard on the left bottom, and a banana on the left top.",
+    "avg_x_servo": 50.857142857142854,
+    "avg_y_servo": 120.28571428571429,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

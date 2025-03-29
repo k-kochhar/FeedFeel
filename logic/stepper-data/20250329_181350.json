@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-03-29 18:13:50",
+  "num_objects": 2,
+  "processing_time_seconds": 0.0012171268463134766,
+  "objects": [
+    {
+      "class_name": "refrigerator",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 66,
+        "y_servo": 136
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "chair",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 20,
+        "y_servo": 269
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see a refrigerator in the center bottom and a chair on the left bottom.",
+    "avg_x_servo": 43.0,
+    "avg_y_servo": 202.5,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

@@ -1,0 +1,284 @@
+{
+  "timestamp": "2025-03-29 18:14:57",
+  "num_objects": 27,
+  "processing_time_seconds": 0.003280162811279297,
+  "objects": [
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 62,
+        "y_servo": 83
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 24,
+        "y_servo": 78
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 89,
+        "y_servo": 140
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 14,
+        "y_servo": 85
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 8,
+        "y_servo": 189
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 94,
+        "y_servo": 21
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 85,
+        "y_servo": 271
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 53,
+        "y_servo": 133
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 77,
+        "y_servo": 25
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "tv",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 89,
+        "y_servo": 135
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 25,
+        "y_servo": 258
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 20,
+        "y_servo": 190
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 78,
+        "y_servo": 201
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 37,
+        "y_servo": 210
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 15,
+        "y_servo": 257
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 90,
+        "y_servo": 121
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 56,
+        "y_servo": 205
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 20,
+        "y_servo": 187
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 77,
+        "y_servo": 114
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 78,
+        "y_servo": 112
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "keyboard",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 53,
+        "y_servo": 143
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "tv",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 80,
+        "y_servo": 92
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 79,
+        "y_servo": 207
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 21,
+        "y_servo": 197
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "tv",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 8,
+        "y_servo": 152
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 93,
+        "y_servo": 28
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 8,
+        "y_servo": 94
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see 17 persons on the left bottom, 6 laptops in the center bottom, 3 tvs on the left bottom, and a keyboard on the left bottom.",
+    "avg_x_servo": 53.074074074074076,
+    "avg_y_servo": 145.4814814814815,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

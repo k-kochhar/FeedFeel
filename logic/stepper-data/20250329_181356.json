@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-03-29 18:13:56",
+  "num_objects": 2,
+  "processing_time_seconds": 0.0017521381378173828,
+  "objects": [
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 42,
+        "y_servo": 154
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 70,
+        "y_servo": 224
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see 2 persons on the left bottom.",
+    "avg_x_servo": 56.0,
+    "avg_y_servo": 189.0,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "timestamp": "2025-03-29 18:14:38",
+  "num_objects": 4,
+  "processing_time_seconds": 0.0012197494506835938,
+  "objects": [
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 56,
+        "y_servo": 101
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "mouse",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 90,
+        "y_servo": 210
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "mouse",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 88,
+        "y_servo": 217
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 41,
+        "y_servo": 201
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see a laptop on the left bottom, a bottle on the left middle, and 2 mouses in the center bottom.",
+    "avg_x_servo": 68.75,
+    "avg_y_servo": 182.25,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}
