@@ -347,7 +347,7 @@ def process_detections_for_vibration(detections, frame_width, frame_height, mode
         current_objects, frame_width, frame_height
     )
     
-    # Process all objects in parallel
+    # Process all objects in parallel and wait for completion
     individual_results = []
     if current_objects:
         print(f"Processing {len(current_objects)} objects in parallel...")
@@ -365,14 +365,13 @@ def process_detections_for_vibration(detections, frame_width, frame_height, mode
                 obj = future_to_object[future]
                 try:
                     result = future.result()
-                    individual_results.append(result)
+                    # Only add results that have valid pattern files
+                    if 'pattern_file' in result and result['pattern_file']:
+                        individual_results.append(result)
+                    else:
+                        print(f"Warning: No pattern file generated for {obj['class_name']}")
                 except Exception as e:
                     print(f"Exception processing {obj['class_name']}: {str(e)}")
-                    # Add error result
-                    individual_results.append({
-                        'error': str(e),
-                        'class_name': obj['class_name']
-                    })
         
         # Calculate and print total processing time
         elapsed_time = time.time() - start_time
@@ -381,7 +380,7 @@ def process_detections_for_vibration(detections, frame_width, frame_height, mode
     else:
         print("No objects to process.")
     
-    # Process summary sentence
+    # Process summary sentence and wait for completion
     summary_result = None
     if summary_sentence:
         print(f"Processing summary sentence: {summary_sentence}")
@@ -447,24 +446,30 @@ def process_detections_for_vibration(detections, frame_width, frame_height, mode
                 "is_cached": result.get("is_cached", False)
             } 
             for result in individual_results
+            if 'pattern_file' in result and result['pattern_file']  # Only include results with valid pattern files
         ],
         "summary": {
             "sentence": summary_sentence,
             "avg_x_servo": avg_x_servo,
             "avg_y_servo": avg_y_servo,
-            "pattern_file": os.path.basename(summary_result.get("pattern_file", "")) if summary_result else None,
+            "pattern_file": os.path.basename(summary_result.get("pattern_file", "")) if summary_result and 'pattern_file' in summary_result else None,
             "is_cached": summary_result.get("is_cached", False) if summary_result else False
         }
     }
     
-    # Save to JSON with timestamp name in stepper-data directory
-    timestamp_str = timestamp.strftime('%Y%m%d_%H%M%S')
-    json_filename = os.path.join("stepper-data", f"{timestamp_str}.json")
-    with open(json_filename, 'w') as f:
-        json.dump(output_data, f, indent=2)
-    
-    print(f"Saved detection record to {json_filename}")
-    return {"filename": json_filename, "objects": current_objects}
+    # Only save the timestamp file if we have at least one valid pattern file
+    if individual_results or (summary_result and 'pattern_file' in summary_result):
+        # Save to JSON with timestamp name in stepper-data directory
+        timestamp_str = timestamp.strftime('%Y%m%d_%H%M%S')
+        json_filename = os.path.join("stepper-data", f"{timestamp_str}.json")
+        with open(json_filename, 'w') as f:
+            json.dump(output_data, f, indent=2)
+        
+        print(f"Saved detection record to {json_filename}")
+        return {"filename": json_filename, "objects": current_objects}
+    else:
+        print("No valid pattern files generated, skipping timestamp file save")
+        return {"filename": None, "objects": []}
 
 # Main function for object detection
 def run_yolo_detection(camera_id=0, model_size="yolov8n.pt", conf_threshold=0.25):
