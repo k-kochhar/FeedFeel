@@ -130,16 +130,15 @@ def sonify_embeddings(embeddings, sample_rate=44100, duration=3.0, normalize=Tru
     return audio_signal
 
 
-def create_stepper_patterns(audio_signal, sample_rate=44100, min_speed=0, max_speed=2048):
+def create_stepper_patterns(audio_signal, sample_rate=44100, min_speed=-250, max_speed=250):
     """
     Create stepper motor control patterns from audio signal.
     
     Parameters:
     - audio_signal: numpy array of audio signal values (-1 to 1)
     - sample_rate: original sample rate of the audio
-    - min_speed: minimum stepper motor speed (0 = stopped)
-    - max_speed: maximum stepper motor speed (controls top RPM)
-      For 28BYJ-48, using speed values from 0-2048
+    - min_speed: minimum stepper motor speed (-250 = full reverse)
+    - max_speed: maximum stepper motor speed (250 = full forward)
     
     Returns:
     - patterns: dictionary with patterns at different frequencies
@@ -150,29 +149,29 @@ def create_stepper_patterns(audio_signal, sample_rate=44100, min_speed=0, max_sp
     # Create stepper patterns at specified frequencies
     patterns = {}
     
-    # 100Hz (100 samples per second)
-    samples_100hz = int(duration * 100)
-    indices = np.linspace(0, original_length - 1, samples_100hz, dtype=int)
-    
-    # Convert audio amplitude [-1,1] to stepper speed [min_speed, max_speed]
-    # Take absolute value since we're controlling speed, not direction
-    pattern_100hz = np.abs(audio_signal[indices])
-    pattern_100hz = min_speed + pattern_100hz * (max_speed - min_speed)
-    patterns["100hz"] = np.round(pattern_100hz).astype(int).tolist()
-    
-    # 50Hz (50 samples per second) - good for 28BYJ-48 which is a slower motor
-    samples_50hz = int(duration * 50)
-    indices = np.linspace(0, original_length - 1, samples_50hz, dtype=int)
-    pattern_50hz = np.abs(audio_signal[indices])
-    pattern_50hz = min_speed + pattern_50hz * (max_speed - min_speed)
-    patterns["50hz"] = np.round(pattern_50hz).astype(int).tolist()
-    
-    # 20Hz (20 samples per second) - even better for 28BYJ-48 which has max ~15 RPM
+    # 20Hz (20 samples per second)
     samples_20hz = int(duration * 20)
     indices = np.linspace(0, original_length - 1, samples_20hz, dtype=int)
-    pattern_20hz = np.abs(audio_signal[indices])
-    pattern_20hz = min_speed + pattern_20hz * (max_speed - min_speed)
+    
+    # Convert audio amplitude [-1,1] to stepper speed [-250, 250]
+    # Keep sign for direction control
+    pattern_20hz = audio_signal[indices]
+    pattern_20hz = min_speed + (pattern_20hz + 1) * (max_speed - min_speed) / 2
     patterns["20hz"] = np.round(pattern_20hz).astype(int).tolist()
+    
+    # 10Hz (10 samples per second)
+    samples_10hz = int(duration * 10)
+    indices = np.linspace(0, original_length - 1, samples_10hz, dtype=int)
+    pattern_10hz = audio_signal[indices]
+    pattern_10hz = min_speed + (pattern_10hz + 1) * (max_speed - min_speed) / 2
+    patterns["10hz"] = np.round(pattern_10hz).astype(int).tolist()
+    
+    # 5Hz (5 samples per second)
+    samples_5hz = int(duration * 5)
+    indices = np.linspace(0, original_length - 1, samples_5hz, dtype=int)
+    pattern_5hz = audio_signal[indices]
+    pattern_5hz = min_speed + (pattern_5hz + 1) * (max_speed - min_speed) / 2
+    patterns["5hz"] = np.round(pattern_5hz).astype(int).tolist()
     
     # Add metadata
     patterns["duration_seconds"] = duration
@@ -180,7 +179,8 @@ def create_stepper_patterns(audio_signal, sample_rate=44100, min_speed=0, max_sp
     patterns["motor_info"] = {
         "type": "28BYJ-48 stepper motor",
         "min_speed": min_speed,
-        "max_speed": max_speed
+        "max_speed": max_speed,
+        "speed_range": f"{min_speed} to {max_speed}"
     }
     
     return patterns
@@ -242,20 +242,20 @@ def process_sentence_to_stepper(
         "pooled_embedding_length": len(pooled_embedding),
         "duration_seconds": patterns["duration_seconds"],
         "patterns": {
-            "100hz": {
-                "sample_rate": 100,
-                "total_samples": len(patterns["100hz"]),
-                "pattern": patterns["100hz"]
-            },
-            "50hz": {
-                "sample_rate": 50,
-                "total_samples": len(patterns["50hz"]),
-                "pattern": patterns["50hz"]
-            },
             "20hz": {
                 "sample_rate": 20,
                 "total_samples": len(patterns["20hz"]),
                 "pattern": patterns["20hz"]
+            },
+            "10hz": {
+                "sample_rate": 10,
+                "total_samples": len(patterns["10hz"]),
+                "pattern": patterns["10hz"]
+            },
+            "5hz": {
+                "sample_rate": 5,
+                "total_samples": len(patterns["5hz"]),
+                "pattern": patterns["5hz"]
             }
         },
         "servo_angles": {
@@ -273,9 +273,9 @@ def process_sentence_to_stepper(
     
     print(f"Stepper motor patterns saved to {json_filename}")
     print(f"Created patterns:")
-    print(f"- 100Hz: {len(patterns['100hz'])} samples")
-    print(f"- 50Hz: {len(patterns['50hz'])} samples")
-    print(f"- 20Hz: {len(patterns['20hz'])} samples (recommended for 28BYJ-48)")
+    print(f"- 20Hz: {len(patterns['20hz'])} samples")
+    print(f"- 10Hz: {len(patterns['10hz'])} samples")
+    print(f"- 5Hz: {len(patterns['5hz'])} samples")
     print(f"- Duration: {patterns['duration_seconds']:.2f} seconds")
     print(f"Servo angles:")
     print(f"- X servo: {x_servo}")
@@ -285,9 +285,9 @@ def process_sentence_to_stepper(
     return {
         'json_filename': json_filename,
         'patterns': {
-            '100hz': len(patterns['100hz']),
-            '50hz': len(patterns['50hz']),
-            '20hz': len(patterns['20hz'])
+            '20hz': len(patterns['20hz']),
+            '10hz': len(patterns['10hz']),
+            '5hz': len(patterns['5hz'])
         },
         'servo_angles': {
             'x_servo': x_servo,
@@ -314,9 +314,9 @@ if __name__ == "__main__":
         
         print("\nStepper motor patterns generated:")
         print(f"- JSON file: {result['json_filename']}")
-        print(f"- 100Hz pattern: {result['patterns']['100hz']} samples")
-        print(f"- 50Hz pattern: {result['patterns']['50hz']} samples")
         print(f"- 20Hz pattern: {result['patterns']['20hz']} samples")
+        print(f"- 10Hz pattern: {result['patterns']['10hz']} samples")
+        print(f"- 5Hz pattern: {result['patterns']['5hz']} samples")
         print(f"- Duration: {result['duration']:.2f} seconds")
         print(f"- Servo angles: {result['servo_angles']}")
         
