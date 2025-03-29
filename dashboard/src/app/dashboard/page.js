@@ -153,10 +153,11 @@ function CameraFeed() {
 			setupCamera();
 		}
 
-		// Cleanup function
+		// Cleanup function - store ref in variable to avoid stale reference
+		const videoRefValue = videoRef.current;
 		return () => {
-			if (videoRef.current && videoRef.current.srcObject) {
-				const tracks = videoRef.current.srcObject.getTracks();
+			if (videoRefValue && videoRefValue.srcObject) {
+				const tracks = videoRefValue.srcObject.getTracks();
 				tracks.forEach((track) => track.stop());
 			}
 		};
