@@ -1,0 +1,64 @@
+{
+  "timestamp": "2025-03-29 18:18:11",
+  "num_objects": 5,
+  "processing_time_seconds": 0.002869844436645508,
+  "objects": [
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 29,
+        "y_servo": 198
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 66,
+        "y_servo": 209
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "cup",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 54,
+        "y_servo": 221
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "cup",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 34,
+        "y_servo": 192
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "car",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 6,
+        "y_servo": 148
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see 2 persons on the left bottom, a car on the left bottom, and 2 cups on the left bottom.",
+    "avg_x_servo": 37.8,
+    "avg_y_servo": 193.6,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

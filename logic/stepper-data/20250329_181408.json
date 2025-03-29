@@ -1,0 +1,64 @@
+{
+  "timestamp": "2025-03-29 18:14:08",
+  "num_objects": 5,
+  "processing_time_seconds": 0.002599000930786133,
+  "objects": [
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 79,
+        "y_servo": 295
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 87,
+        "y_servo": 197
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 94,
+        "y_servo": 214
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 16,
+        "y_servo": 141
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "refrigerator",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 92,
+        "y_servo": 132
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see a refrigerator in the center bottom, 2 bottles in the center bottom, and 2 persons on the left bottom.",
+    "avg_x_servo": 73.6,
+    "avg_y_servo": 195.8,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "timestamp": "2025-03-29 18:13:07",
+  "num_objects": 6,
+  "processing_time_seconds": 0.0008711814880371094,
+  "objects": [
+    {
+      "class_name": "backpack",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 26,
+        "y_servo": 277
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 46,
+        "y_servo": 170
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 60,
+        "y_servo": 176
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "backpack",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 65,
+        "y_servo": 224
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 46,
+        "y_servo": 185
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "handbag",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 26,
+        "y_servo": 277
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see 3 persons on the left bottom, a handbag on the left bottom, and 2 backpacks on the left bottom.",
+    "avg_x_servo": 44.833333333333336,
+    "avg_y_servo": 218.16666666666666,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

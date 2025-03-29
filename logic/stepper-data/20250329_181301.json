@@ -1,0 +1,54 @@
+{
+  "timestamp": "2025-03-29 18:13:01",
+  "num_objects": 4,
+  "processing_time_seconds": 0.0008790493011474609,
+  "objects": [
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 16,
+        "y_servo": 261
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 80,
+        "y_servo": 239
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 34,
+        "y_servo": 110
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 33,
+        "y_servo": 190
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see 2 persons on the left bottom, a laptop on the left bottom, and a bottle on the left bottom.",
+    "avg_x_servo": 40.75,
+    "avg_y_servo": 200.0,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

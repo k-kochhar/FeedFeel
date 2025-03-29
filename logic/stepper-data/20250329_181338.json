@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-03-29 18:13:38",
+  "num_objects": 2,
+  "processing_time_seconds": 0.0005347728729248047,
+  "objects": [
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 47,
+        "y_servo": 173
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "cell phone",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 81,
+        "y_servo": 267
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see a person on the left bottom and a cell phone in the center bottom.",
+    "avg_x_servo": 64.0,
+    "avg_y_servo": 220.0,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

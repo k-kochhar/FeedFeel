@@ -1,0 +1,44 @@
+{
+  "timestamp": "2025-03-29 18:14:29",
+  "num_objects": 3,
+  "processing_time_seconds": 0.0014719963073730469,
+  "objects": [
+    {
+      "class_name": "keyboard",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 48,
+        "y_servo": 292
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "refrigerator",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 87,
+        "y_servo": 70
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 50,
+        "y_servo": 209
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see a refrigerator in the center middle, a keyboard on the left bottom, and a laptop on the left bottom.",
+    "avg_x_servo": 61.666666666666664,
+    "avg_y_servo": 190.33333333333334,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

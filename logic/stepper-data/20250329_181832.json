@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-03-29 18:18:32",
+  "num_objects": 1,
+  "processing_time_seconds": 0.0004742145538330078,
+  "objects": [
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 88,
+        "y_servo": 72
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see a person in the center middle.",
+    "avg_x_servo": 88.0,
+    "avg_y_servo": 72.0,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

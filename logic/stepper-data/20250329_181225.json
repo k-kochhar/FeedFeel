@@ -1,0 +1,74 @@
+{
+  "timestamp": "2025-03-29 18:12:25",
+  "num_objects": 6,
+  "processing_time_seconds": 0.0023450851440429688,
+  "objects": [
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 73,
+        "y_servo": 142
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "chair",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 16,
+        "y_servo": 65
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 44,
+        "y_servo": 238
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "person",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 83,
+        "y_servo": 260
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 49,
+        "y_servo": 92
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "keyboard",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 54,
+        "y_servo": 232
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see 2 laptops on the left bottom, a chair on the left middle, a person in the center bottom, a keyboard on the left bottom, and a bottle on the left middle.",
+    "avg_x_servo": 53.166666666666664,
+    "avg_y_servo": 171.5,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}

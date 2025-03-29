@@ -1,0 +1,84 @@
+{
+  "timestamp": "2025-03-29 18:13:29",
+  "num_objects": 7,
+  "processing_time_seconds": 0.0012650489807128906,
+  "objects": [
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 15,
+        "y_servo": 44
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 73,
+        "y_servo": 112
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "keyboard",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 84,
+        "y_servo": 179
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "cell phone",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 21,
+        "y_servo": 225
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "laptop",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 90,
+        "y_servo": 98
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "bottle",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 75,
+        "y_servo": 52
+      },
+      "pattern_file": "",
+      "is_cached": false
+    },
+    {
+      "class_name": "book",
+      "confidence": 0,
+      "servo_angles": {
+        "x_servo": 50,
+        "y_servo": 261
+      },
+      "pattern_file": "",
+      "is_cached": false
+    }
+  ],
+  "summary": {
+    "sentence": "I see 3 bottles on the left middle, a keyboard in the center bottom, a laptop in the center middle, a cell phone on the left bottom, and a book on the left bottom.",
+    "avg_x_servo": 58.285714285714285,
+    "avg_y_servo": 138.71428571428572,
+    "pattern_file": "",
+    "is_cached": false
+  }
+}
