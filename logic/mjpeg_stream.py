@@ -8,6 +8,8 @@ import numpy as np
 from ultralytics import YOLO
 import torch
 import sys
+import json
+from flask_socketio import SocketIO
 
 # Implement functions directly instead of importing from detect.py
 # Check if MPS is available (Apple Silicon GPU acceleration)
@@ -38,7 +40,7 @@ def initialize_camera(camera_id=0):
     return cap
 
 class YoloStream:
-    def __init__(self, camera_id=0, model_size="yolov8n.pt", conf_threshold=0.25):
+    def __init__(self, camera_id=0, model_size="yolov8n.pt", conf_threshold=0.25, socketio=None):
         # Get the device
         self.device = check_mps()
         
@@ -64,6 +66,9 @@ class YoloStream:
         # Set confidence threshold
         self.conf_threshold = conf_threshold
         
+        # Store SocketIO instance for emitting events
+        self.socketio = socketio
+        
         # Variables for threading
         self.thread = None
         self.is_running = False
@@ -75,6 +80,17 @@ class YoloStream:
         self.start_time = time.time()
         self.fps = 0
         
+        # Detection statistics
+        self.detection_stats = {
+            "total_detections": 0,
+            "class_counts": {},
+            "recent_detections": [],
+            "fps": 0
+        }
+        
+        # Class color mapping (for consistent colors)
+        self.class_colors = {}
+        
         # Start processing thread
         self.start()
     
@@ -85,7 +101,20 @@ class YoloStream:
             self.thread.start()
             print("YOLO detection thread started")
     
+    def get_class_color(self, class_name):
+        """Generate a consistent color for each class name"""
+        if class_name not in self.class_colors:
+            # Generate a color based on the hash of the class name
+            hash_val = hash(class_name) % 0xFFFFFF
+            # Convert to hex and ensure it's bright enough
+            color = f"#{hash_val:06x}"
+            self.class_colors[class_name] = color
+        return self.class_colors[class_name]
+    
     def update(self):
+        last_emit_time = time.time()
+        emit_interval = 0.5  # Send data to frontend every 0.5 seconds
+        
         while self.is_running:
             ret, frame = self.cap.read()
             if not ret:
@@ -98,6 +127,54 @@ class YoloStream:
             # Run YOLOv8 inference
             results = self.model(frame, conf=self.conf_threshold)
             
+            # Process detection results for stats
+            current_detections = []
+            if len(results[0].boxes) > 0:
+                for i in range(len(results[0].boxes)):
+                    box = results[0].boxes[i]
+                    class_id = int(box.cls.item())
+                    class_name = self.model.names[class_id]
+                    confidence = float(box.conf.item())
+                    
+                    # Get bounding box
+                    x1, y1, x2, y2 = [float(x) for x in box.xyxy[0]]
+                    
+                    # Calculate object size (normalized by frame dimensions)
+                    width = (x2 - x1) / self.frame_width
+                    height = (y2 - y1) / self.frame_height
+                    size = width * height
+                    
+                    # Calculate position (center point)
+                    center_x = (x1 + x2) / 2 / self.frame_width
+                    center_y = (y1 + y2) / 2 / self.frame_height
+                    
+                    # Add to detection stats
+                    self.detection_stats["total_detections"] += 1
+                    
+                    if class_name in self.detection_stats["class_counts"]:
+                        self.detection_stats["class_counts"][class_name] += 1
+                    else:
+                        self.detection_stats["class_counts"][class_name] = 1
+                    
+                    # Add to current detections
+                    detection = {
+                        "class_name": class_name,
+                        "confidence": confidence,
+                        "position": {
+                            "x": center_x,
+                            "y": center_y
+                        },
+                        "size": size,
+                        "timestamp": time.time(),
+                        "color": self.get_class_color(class_name)
+                    }
+                    current_detections.append(detection)
+            
+            # Update recent detections list (keep last 20)
+            self.detection_stats["recent_detections"] = current_detections + self.detection_stats["recent_detections"]
+            if len(self.detection_stats["recent_detections"]) > 20:
+                self.detection_stats["recent_detections"] = self.detection_stats["recent_detections"][:20]
+            
             # Draw detections and labels
             annotated_frame = results[0].plot()
             
@@ -106,6 +183,7 @@ class YoloStream:
             elapsed_time = time.time() - self.start_time
             if elapsed_time > 1:
                 self.fps = self.frame_count / elapsed_time
+                self.detection_stats["fps"] = round(self.fps, 2)
                 cv2.putText(annotated_frame, f"FPS: {self.fps:.2f}", (10, 30), 
                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                 self.frame_count = 0
@@ -114,6 +192,12 @@ class YoloStream:
             # Store the processed frame
             with self.lock:
                 self.current_frame = annotated_frame.copy()
+            
+            # Emit detection stats via WebSocket
+            current_time = time.time()
+            if self.socketio and current_time - last_emit_time >= emit_interval:
+                self.socketio.emit('detection_stats', self.detection_stats)
+                last_emit_time = current_time
     
     def get_frame(self):
         with self.lock:
@@ -137,6 +221,7 @@ stream = None
 # Flask app
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
+socketio = SocketIO(app, cors_allowed_origins="*")  # Initialize SocketIO with CORS
 
 # Create HTML template string as we don't have a templates folder
 HTML_TEMPLATE = """
@@ -219,16 +304,32 @@ def video_feed():
     return Response(generate_frames(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/stats')
+def stats():
+    """Return current detection stats as JSON"""
+    global stream
+    if stream:
+        return json.dumps(stream.detection_stats)
+    return json.dumps({"error": "Stream not initialized"})
+
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected to WebSocket')
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected from WebSocket')
+
 def start_server(camera_id=1, port=5001):
     global stream
     
     try:
-        # Initialize YoloStream
-        stream = YoloStream(camera_id=camera_id)
+        # Initialize YoloStream with SocketIO
+        stream = YoloStream(camera_id=camera_id, socketio=socketio)
         
-        # Start Flask server
-        print(f"Starting MJPEG server on port {port}")
-        app.run(host='0.0.0.0', port=port, threaded=True)
+        # Start SocketIO server (which will also run the Flask app)
+        print(f"Starting MJPEG server with SocketIO on port {port}")
+        socketio.run(app, host='0.0.0.0', port=port, allow_unsafe_werkzeug=True)
     except KeyboardInterrupt:
         print("Server stopped by user")
     except Exception as e:
@@ -239,7 +340,7 @@ def start_server(camera_id=1, port=5001):
 
 if __name__ == "__main__":
     # Parse command line arguments
-    camera_id = 0  # Default to camera ID 1 (usually virtual camera)
+    camera_id = 0  # Default to camera ID 0
     port = 5001    # Default port
     
     # Allow command line overrides
@@ -247,7 +348,7 @@ if __name__ == "__main__":
         try:
             camera_id = int(sys.argv[1])
         except ValueError:
-            print(f"Invalid camera ID: {sys.argv[1]}. Using default: 1")
+            print(f"Invalid camera ID: {sys.argv[1]}. Using default: 0")
     
     if len(sys.argv) > 2:
         try:
