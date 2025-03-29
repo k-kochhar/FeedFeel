@@ -1,4 +1,6 @@
 /.venv
-/venv
-../venv
-../.venv
+
+# stepper data
+/logic/stepper-data
+/logic/stepper-data/*
+/logic/stepper-data/*.json
