@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-03-30 00:19:06",
+  "num_objects": 1,
+  "processing_time_seconds": 9.393692016601562e-05,
+  "objects": [
+    {
+      "class_name": "laptop",
+      "confidence": 0.9275907874107361,
+      "servo_angles": {
+        "x_servo": 43,
+        "y_servo": 165
+      },
+      "pattern_file": "laptop_stepper.json",
+      "is_cached": true
+    }
+  ],
+  "summary": {
+    "sentence": "I see a laptop on the left bottom.",
+    "avg_x_servo": 43.0,
+    "avg_y_servo": 165.0,
+    "pattern_file": "i_see_a_laptop_on_the_left_bottom_stepper.json",
+    "is_cached": true
+  }
+}

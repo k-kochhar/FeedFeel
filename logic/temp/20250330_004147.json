@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-03-30 00:41:47",
+  "num_objects": 1,
+  "processing_time_seconds": 0.5081028938293457,
+  "objects": [
+    {
+      "class_name": "book",
+      "confidence": 0.722776472568512,
+      "servo_angles": {
+        "x_servo": 45,
+        "y_servo": 164
+      },
+      "pattern_file": "book_stepper.json",
+      "is_cached": true
+    }
+  ],
+  "summary": {
+    "sentence": "I see a book on the left bottom.",
+    "avg_x_servo": 45.0,
+    "avg_y_servo": 164.0,
+    "pattern_file": "i_see_a_book_on_the_left_bottom_stepper.json",
+    "is_cached": false
+  }
+}

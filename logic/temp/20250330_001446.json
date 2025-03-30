@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-03-30 00:14:46",
+  "num_objects": 1,
+  "processing_time_seconds": 9.274482727050781e-05,
+  "objects": [
+    {
+      "class_name": "banana",
+      "confidence": 0.8949889540672302,
+      "servo_angles": {
+        "x_servo": 25,
+        "y_servo": 171
+      },
+      "pattern_file": "banana_stepper.json",
+      "is_cached": true
+    }
+  ],
+  "summary": {
+    "sentence": "I see a banana on the left bottom.",
+    "avg_x_servo": 25.0,
+    "avg_y_servo": 171.0,
+    "pattern_file": "i_see_a_banana_on_the_left_bottom_stepper.json",
+    "is_cached": true
+  }
+}

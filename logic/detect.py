@@ -382,6 +382,8 @@ def process_detections_for_vibration(detections, frame_width, frame_height, mode
     
     # Process summary sentence and wait for completion
     summary_result = None
+    start_time = time.time()  # Initialize start_time here to ensure it exists even if there are no objects
+    
     if summary_sentence:
         print(f"Processing summary sentence: {summary_sentence}")
         try:
@@ -409,19 +411,68 @@ def process_detections_for_vibration(detections, frame_width, frame_height, mode
                 objects_dir = os.path.join("stepper-data", "objects")
                 ensure_directory_exists(objects_dir)
                 
-                summary_result = process_sentence_to_stepper(
-                    sentence=summary_sentence,
-                    x_servo=avg_x_servo,
-                    y_servo=avg_y_servo,
-                    height=0,
-                    output_dir=objects_dir,
-                    duration=3.0
-                )
+                # Try up to 3 times to generate the summary pattern
+                max_tries = 3
+                for attempt in range(max_tries):
+                    try:
+                        summary_result = process_sentence_to_stepper(
+                            sentence=summary_sentence,
+                            x_servo=avg_x_servo,
+                            y_servo=avg_y_servo,
+                            height=0,
+                            output_dir=objects_dir,
+                            duration=3.0
+                        )
+                        
+                        # Verify pattern file was created
+                        if 'pattern_file' not in summary_result or not summary_result['pattern_file']:
+                            print(f"Summary pattern generation attempt {attempt+1}/{max_tries} failed: No pattern file returned")
+                            # Check if the file exists anyway (might be a return value issue)
+                            safe_name = clean_filename(summary_sentence)
+                            expected_pattern_file = os.path.join(objects_dir, f"{safe_name}_stepper.json")
+                            if os.path.exists(expected_pattern_file):
+                                print(f"Found pattern file despite missing return value: {expected_pattern_file}")
+                                summary_result['pattern_file'] = expected_pattern_file
+                                # Success - pattern file exists
+                                summary_result['sentence'] = summary_sentence
+                                summary_result['is_cached'] = False
+                                print(f"Successfully recovered pattern file on attempt {attempt+1}")
+                                break
+                            elif attempt < max_tries - 1:
+                                print("Retrying summary pattern generation...")
+                                time.sleep(0.5)  # Short delay before retry
+                                continue
+                        else:
+                            # Verify the pattern file exists
+                            if not os.path.exists(summary_result['pattern_file']):
+                                print(f"Summary pattern generation attempt {attempt+1}/{max_tries} failed: File not created")
+                                if attempt < max_tries - 1:
+                                    print("Retrying summary pattern generation...")
+                                    time.sleep(0.5)
+                                    continue
+                            
+                            # Success - pattern file exists
+                            summary_result['sentence'] = summary_sentence
+                            summary_result['is_cached'] = False
+                            print(f"Successfully processed summary sentence on attempt {attempt+1}")
+                            break
+                    except Exception as e:
+                        print(f"Error during summary pattern generation attempt {attempt+1}/{max_tries}: {str(e)}")
+                        if attempt < max_tries - 1:
+                            print("Retrying summary pattern generation...")
+                            time.sleep(0.5)
+                            continue
+                        else:
+                            raise  # Re-raise the exception on the last attempt
                 
-                summary_result['sentence'] = summary_sentence
-                summary_result['is_cached'] = False
-                
-                print(f"Successfully processed summary sentence")
+                # Check if we succeeded after all attempts
+                if 'pattern_file' not in summary_result or not summary_result['pattern_file']:
+                    print(f"Summary pattern generation failed after {max_tries} attempts")
+                    summary_result = {
+                        'error': "Failed to generate pattern after multiple attempts",
+                        'sentence': summary_sentence
+                    }
+                    
         except Exception as e:
             print(f"Error processing summary sentence: {str(e)}")
             summary_result = {
@@ -462,6 +513,44 @@ def process_detections_for_vibration(detections, frame_width, frame_height, mode
         # Save to JSON with timestamp name in stepper-data directory
         timestamp_str = timestamp.strftime('%Y%m%d_%H%M%S')
         json_filename = os.path.join("stepper-data", f"{timestamp_str}.json")
+        
+        # Fix for summary pattern file reference - check if it exists but wasn't properly linked
+        if summary_sentence and (output_data["summary"]["pattern_file"] is None or output_data["summary"]["pattern_file"] == ""):
+            # Try to find the pattern file directly
+            safe_name = clean_filename(summary_sentence)
+            expected_pattern_file = f"{safe_name}_stepper.json"
+            expected_path = os.path.join("stepper-data", "objects", expected_pattern_file)
+            
+            if os.path.exists(expected_path):
+                print(f"Found pattern file for summary that wasn't properly linked: {expected_pattern_file}")
+                output_data["summary"]["pattern_file"] = expected_pattern_file
+                output_data["summary"]["is_cached"] = True
+            else:
+                # Try a simplified version of the summary sentence
+                # Some long sentences might be saved with truncated filenames
+                shortened_name = clean_filename(summary_sentence[:50])  # Use first 50 chars
+                expected_pattern_file = f"{shortened_name}_stepper.json"
+                expected_path = os.path.join("stepper-data", "objects", expected_pattern_file)
+                
+                if os.path.exists(expected_path):
+                    print(f"Found pattern file using shortened name: {expected_pattern_file}")
+                    output_data["summary"]["pattern_file"] = expected_pattern_file
+                    output_data["summary"]["is_cached"] = True
+                else:
+                    # Try wildcard search for any file matching part of the summary
+                    objects_dir = os.path.join("stepper-data", "objects")
+                    words = summary_sentence.lower().split()
+                    if len(words) > 3:  # Try with first few words
+                        search_term = "_".join(words[:3])
+                        matches = [f for f in os.listdir(objects_dir) 
+                                  if f.startswith(search_term) and f.endswith("_stepper.json")]
+                        
+                        if matches:
+                            print(f"Found matching pattern file using search: {matches[0]}")
+                            output_data["summary"]["pattern_file"] = matches[0]
+                            output_data["summary"]["is_cached"] = True
+        
+        # Save the JSON file
         with open(json_filename, 'w') as f:
             json.dump(output_data, f, indent=2)
         
@@ -522,9 +611,9 @@ def run_yolo_detection(camera_id=0, model_size="yolov8n.pt", conf_threshold=0.25
         frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
         results = model(frame, conf=conf_threshold)
         
-        # Process detections for vibration every 3 seconds (if not already processing)
+        # Process detections for vibration every 4 seconds (if not already processing)
         current_time = time.time()
-        if current_time - last_process_time >= 3.0 and not is_processing:
+        if current_time - last_process_time >= 4.0 and not is_processing:
             # Start a new thread to handle the processing to avoid blocking the main loop
             last_process_time = current_time
             is_processing = True

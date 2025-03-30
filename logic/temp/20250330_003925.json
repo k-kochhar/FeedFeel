@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-03-30 00:39:25",
+  "num_objects": 1,
+  "processing_time_seconds": 0.0002491474151611328,
+  "objects": [
+    {
+      "class_name": "cell phone",
+      "confidence": 0.8138734102249146,
+      "servo_angles": {
+        "x_servo": 42,
+        "y_servo": 166
+      },
+      "pattern_file": "cell_phone_stepper.json",
+      "is_cached": true
+    }
+  ],
+  "summary": {
+    "sentence": "I see a cell phone on the left bottom.",
+    "avg_x_servo": 42.0,
+    "avg_y_servo": 166.0,
+    "pattern_file": "i_see_a_cell_phone_on_the_left_bottom_stepper.json",
+    "is_cached": true
+  }
+}

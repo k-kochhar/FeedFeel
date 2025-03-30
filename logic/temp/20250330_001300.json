@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-03-30 00:13:00",
+  "num_objects": 1,
+  "processing_time_seconds": 0.0001819133758544922,
+  "objects": [
+    {
+      "class_name": "person",
+      "confidence": 0.9540579319000244,
+      "servo_angles": {
+        "x_servo": 40,
+        "y_servo": 164
+      },
+      "pattern_file": "person_stepper.json",
+      "is_cached": true
+    }
+  ],
+  "summary": {
+    "sentence": "I see a person on the left bottom.",
+    "avg_x_servo": 40.0,
+    "avg_y_servo": 164.0,
+    "pattern_file": "i_see_a_person_on_the_left_bottom_stepper.json",
+    "is_cached": true
+  }
+}
