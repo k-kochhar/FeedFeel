@@ -10,6 +10,14 @@ import torch
 import sys
 import json
 from flask_socketio import SocketIO
+from dotenv import load_dotenv
+import random
+
+# Import functions from get_vib.py for embedding visualization
+from get_vib import get_sentence_embedding, average_pool_embedding, sonify_embeddings
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Implement functions directly instead of importing from detect.py
 # Check if MPS is available (Apple Silicon GPU acceleration)
@@ -38,6 +46,87 @@ def initialize_camera(camera_id=0):
                 temp_cap.release()
         return None
     return cap
+
+# Class for generating and processing embeddings for visualization
+class EmbeddingVisualizer:
+    def __init__(self):
+        # Sample objects that might be detected
+        self.sample_objects = [
+            "person", "car", "bicycle", "chair", "bottle", 
+            "dog", "cat", "laptop", "cup", "book",
+            "cell phone", "backpack", "umbrella", "handbag"
+        ]
+        
+        # Store last processed embedding data
+        self.current_visualization = {
+            "object": "",
+            "raw_embedding": [],
+            "pooled_embedding": [],
+            "audio_signal": [],
+            "stepper_pattern": [],
+            "processing_time": 0
+        }
+    
+    def generate_visualization_data(self, object_name=None):
+        """Generate visualization data for a given object or random sample"""
+        # If no object is provided, choose a random one
+        if not object_name:
+            object_name = random.choice(self.sample_objects)
+        
+        start_time = time.time()
+        
+        try:
+            # Get the embedding
+            embedding = get_sentence_embedding(object_name)
+            
+            # Sample just a portion of the embedding for visualization (it's very large)
+            embedding_sample = embedding[:100]
+            
+            # Apply average pooling
+            pooled_embedding = average_pool_embedding(embedding, pool_size=6)
+            
+            # Sample pooled embedding for visualization
+            pooled_sample = pooled_embedding[:50]
+            
+            # Generate audio signal from the pooled embedding
+            audio_signal = sonify_embeddings(pooled_embedding, sample_rate=44100, duration=3.0)
+            
+            # Sample a portion of the audio signal
+            audio_sample = audio_signal[:400].tolist()
+            
+            # Convert audio signal to stepper motor pattern (same logic as in get_vib.py)
+            # Just sample 20hz pattern for visualization
+            duration = len(audio_signal) / 44100
+            samples_20hz = int(duration * 20)
+            indices = np.linspace(0, len(audio_signal) - 1, samples_20hz, dtype=int)
+            
+            # Convert audio amplitude [-1,1] to stepper speed [-250, 250]
+            min_speed, max_speed = -250, 250
+            pattern_20hz = audio_signal[indices]
+            pattern_20hz = min_speed + (pattern_20hz + 1) * (max_speed - min_speed) / 2
+            stepper_pattern = np.round(pattern_20hz).astype(int).tolist()
+            
+            end_time = time.time()
+            processing_time = end_time - start_time
+            
+            # Create visualization data
+            self.current_visualization = {
+                "object": object_name,
+                "raw_embedding": embedding_sample,
+                "pooled_embedding": pooled_sample.tolist(),
+                "audio_signal": audio_sample,
+                "stepper_pattern": stepper_pattern,
+                "processing_time": round(processing_time, 2)
+            }
+            
+            return self.current_visualization
+        
+        except Exception as e:
+            print(f"Error generating visualization data: {str(e)}")
+            return {
+                "object": object_name,
+                "error": str(e)
+            }
 
 class YoloStream:
     def __init__(self, camera_id=0, model_size="yolov8n.pt", conf_threshold=0.25, socketio=None):
@@ -88,6 +177,11 @@ class YoloStream:
             "fps": 0
         }
         
+        # Embedding visualization
+        self.embedding_visualizer = EmbeddingVisualizer()
+        self.last_viz_update = time.time()
+        self.viz_interval = 10.0  # Update embedding visualization every 10 seconds
+        
         # Class color mapping (for consistent colors)
         self.class_colors = {}
         
@@ -129,12 +223,18 @@ class YoloStream:
             
             # Process detection results for stats
             current_detections = []
+            latest_object_name = None  # Track the most recent detected object
+            
             if len(results[0].boxes) > 0:
                 for i in range(len(results[0].boxes)):
                     box = results[0].boxes[i]
                     class_id = int(box.cls.item())
                     class_name = self.model.names[class_id]
                     confidence = float(box.conf.item())
+                    
+                    # Keep track of the last detected object with good confidence
+                    if confidence > 0.6:
+                        latest_object_name = class_name
                     
                     # Get bounding box
                     x1, y1, x2, y2 = [float(x) for x in box.xyxy[0]]
@@ -198,6 +298,15 @@ class YoloStream:
             if self.socketio and current_time - last_emit_time >= emit_interval:
                 self.socketio.emit('detection_stats', self.detection_stats)
                 last_emit_time = current_time
+            
+            # Update embedding visualization periodically
+            # When the interval is reached or if a new object is detected with good confidence
+            if current_time - self.last_viz_update >= self.viz_interval or latest_object_name:
+                object_to_process = latest_object_name if latest_object_name else None
+                viz_data = self.embedding_visualizer.generate_visualization_data(object_to_process)
+                if self.socketio:
+                    self.socketio.emit('embedding_visualization', viz_data)
+                self.last_viz_update = current_time
     
     def get_frame(self):
         with self.lock:
@@ -315,10 +424,24 @@ def stats():
 @socketio.on('connect')
 def handle_connect():
     print('Client connected to WebSocket')
+    # Send initial embedding visualization on connect
+    global stream
+    if stream:
+        viz_data = stream.embedding_visualizer.generate_visualization_data()
+        socketio.emit('embedding_visualization', viz_data)
 
 @socketio.on('disconnect')
 def handle_disconnect():
     print('Client disconnected from WebSocket')
+
+@socketio.on('request_embedding_viz')
+def handle_request_embedding_viz(data):
+    """Handle frontend requests for embedding visualization"""
+    global stream
+    if stream:
+        object_name = data.get('object') if data and 'object' in data else None
+        viz_data = stream.embedding_visualizer.generate_visualization_data(object_name)
+        socketio.emit('embedding_visualization', viz_data)
 
 def start_server(camera_id=1, port=5001):
     global stream

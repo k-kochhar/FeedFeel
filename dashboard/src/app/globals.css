@@ -18,6 +18,31 @@ body {
 }
 
 @layer utilities {
+  /* Custom scrollbar styling */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  /* For Webkit browsers like Chrome/Safari/Edge */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
   .container-narrow {
     max-width: 896px;
     margin-left: auto;
