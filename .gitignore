@@ -3,3 +3,6 @@
 # stepper data
 /logic/stepper-data
 /logic/stepper-data/*
+
+# .env
+.env

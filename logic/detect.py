@@ -9,6 +9,10 @@ import numpy as np
 import threading
 import concurrent.futures
 import hashlib
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Import vibration generator function (only importing the functions we need)
 from get_vib import (
@@ -691,7 +695,7 @@ if __name__ == "__main__":
     # camera_id: 0 is usually the built-in webcam, try other numbers for OBS virtual camera
     # model_size options: "yolov8n.pt" (fastest), "yolov8s.pt", "yolov8m.pt", "yolov8l.pt", "yolov8x.pt" (most accurate)
     run_yolo_detection(
-        camera_id=1,  # Try different numbers to find your OBS virtual camera
+        camera_id=0,  # Try different numbers to find your OBS virtual camera
         model_size="yolov8n.pt",  # Start with smallest model, increase if performance is good
         conf_threshold=0.25  # Lower this value to detect more objects (may include false positives)
     )

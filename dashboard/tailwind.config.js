@@ -1,9 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx}",
-    "./src/components/**/*.{js,ts,jsx,tsx}",
-    "./src/app/**/*.{js,ts,jsx,tsx}",
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -17,17 +17,17 @@ module.exports = {
           dark: "#D4AF37",
         },
         navy: {
-          50: "#f0f4f8",
-          100: "#d9e2ec",
-          200: "#bcccdc",
-          300: "#9fb3c8",
-          400: "#829ab1",
-          500: "#627d98",
-          600: "#486581",
-          700: "#334e68",
-          800: "#243b53",
-          900: "#102a43",
-          950: "#0a1929",
+          50: "#f0f5fa",
+          100: "#d0e1f5",
+          200: "#b0cef0",
+          300: "#90bbe5",
+          400: "#70a8db",
+          500: "#5095d0",
+          600: "#4082c0",
+          700: "#316eb5",
+          800: "#215ca0",
+          900: "#114990",
+          950: "#003780",
         },
         coral: {
           50: '#fff1f0',
@@ -74,6 +74,9 @@ module.exports = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
       },
     },
   },
