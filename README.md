@@ -1,82 +1,65 @@
-# SixthSense!
+# SixthSense - [First Place at HackPrinceton](https://devpost.com/software/sixthsense-xuw41r)
+<p align="center">
+<img width="720" alt="Landing" src="https://github.com/user-attachments/assets/afbbfd91-ff50-4660-b3c5-5fa49827e41c" />
+</p>
 
-## System Overview
+## Overview
 
-The application consists of two main components:
+Over 253 million people worldwide live with visual impairments. SixthSense redefines assistive technology by introducing a groundbreaking dual-feedback system that allows users to "feel" their environment through touch without overloading their hearing.
 
-1. **YOLO Detection Stream**: A Python-based MJPEG streaming server with real-time WebSocket data that processes camera input using YOLOv8 for object detection.
-2. **Next.js Dashboard**: A web interface that displays the YOLO detection stream and provides real-time visualization of detection data.
+By combining **Meta glasses**, **YOLOv8 object detection**, and **custom haptic feedback** through a wearable glove and gauntlet, SixthSense lets users perceive both **what** an object is and **where** it is, providing a tactile language that becomes intuitive over time.
 
-## Features
+<p align="center">
+  <img width="400" alt="Screenshot 2025-03-29 at 9 10 00 PM" src="https://github.com/user-attachments/assets/b616b54d-4ada-4f9f-b986-8cb1945075f0" />
+  <img width="400" alt="PHOTO-2025-03-30-08-49-17 4" src="https://github.com/user-attachments/assets/f87148e4-debf-474e-bb8a-57618bdace7e" />
+</p>
 
-- **Live Object Detection**: Processes camera feed with YOLOv8 for real-time object detection
-- **MJPEG Streaming**: Sends the processed video as an MJPEG stream to the frontend
-- **Real-time Stats**: Uses WebSockets to provide live detection statistics to the dashboard
-- **Visualization Dashboard**: Displays detection metrics, object distribution, and recent detections
+<p align="center">
+  <img width="400" alt="PHOTO-2025-03-30-08-49-17 2" src="https://github.com/user-attachments/assets/a3a6b518-fc53-4fde-a6eb-bde62786e38d" />
+  <img width="400" alt="PHOTO-2025-03-30-08-49-17 3" src="https://github.com/user-attachments/assets/5e29a134-ca37-4874-8cb0-59da1410fd47" />
+</p>
 
-## Manual Setup
+---
 
-### YOLO MJPEG Streaming Server
+## What It Does
 
-```bash
-cd logic
-pip install -r requirements.txt  # Only needed for first-time setup
-python mjpeg_stream.py [camera_id] [port]
-```
+- **Visual Recognition**: Captures real-world scenes using Meta glasses
+- **Object Detection**: Identifies objects using YOLOv8
+- **Tactile Signatures**: Converts object embeddings into unique vibration patterns using inverse Fourier transforms
+- **Directional Guidance**: Uses servo motors to physically guide users' hands toward object locations
+- **Simultaneous Sensory Composition**: Merges multiple objects’ tactile signals into a harmonic, non-overwhelming experience
 
-- `camera_id`: Optional camera ID (default: 0, which is typically the built-in camera)
-- `port`: Optional port to run the server on (default: 5001)
+---
 
-The stream will be available at: http://localhost:5001/video_feed
+## Key Innovations
 
-### Next.js Dashboard
+- **Brain-Inspired Architecture**: Separates object identity ("what") from location ("where"), mirroring human visual processing
+- **Embedding-to-Vibration Mapping**: Translates semantic object vectors into unique, recognizable tactile patterns
+- **Harmonic Touch Language**: Similar objects produce related sensations, allowing users to intuitively understand complex scenes
+- **Minimal Auditory Interference**: Preserves hearing by relying solely on touch for feedback
 
-```bash
-cd dashboard
-npm install  # Only needed for first-time setup
-npm run dev
-```
+---
 
-The dashboard will be available at: http://localhost:3000
+## System Components
 
-## Camera IDs
+1. **YOLO Detection Stream**  
+   Python-based MJPEG streaming server with WebSocket support to detect and serve object data in real-time.
 
-Common camera IDs include:
-- `0`: Usually the built-in webcam
-- `1`: Often a virtual camera (like OBS Virtual Camera)
-- `2+`: Additional cameras or virtual inputs
+2. **Next.js Dashboard**  
+   Web interface for developers and testers to visualize detections and track statistics.
 
-You can run `python logic/mjpeg_stream.py` without arguments to see a list of available cameras on your system.
+3. **Haptic Feedback System**  
+   Arduino-controlled glove and gauntlet delivering dual feedback: vibration patterns (identity) and servo-based guidance (location).
 
-## Requirements
+---
 
-- Python 3.x with required packages:
-  - flask
-  - flask-socketio
-  - flask-cors
-  - opencv-python
-  - torch
-  - ultralytics
-- Node.js and npm for the dashboard
-- A webcam or virtual camera (like OBS Virtual Camera)
+## Built With
 
-## Dashboard Visualization
+- `Python`, `YOLOv8`, `OpenCV`, `Arduino`, `Next.js`, `Flask`, `WebSockets`, `Fourier Transforms`
 
-The dashboard provides real-time visualization of detection data:
+---
 
-1. **Detection Stats Card**: Shows total detections, FPS, and connection status
-2. **Object Classes Card**: Displays distribution of detected object classes with progress bars
-3. **Recent Detections Card**: Lists recently detected objects with confidence, position, and timing information
+## Check us out
 
-## Troubleshooting
-
-If the stream doesn't appear:
-1. Check that the MJPEG server is running (`http://localhost:5001/` should show a test page)
-2. Verify that the correct camera ID is being used
-3. Try a different camera ID with `python logic/mjpeg_stream.py X` (where X is 0, 1, 2, etc.)
-4. Check the terminal output for any error messages
-
-If the WebSocket connection fails:
-1. Make sure the server is running with the correct port
-2. Check browser console for any connection errors
-3. Restart both the server and the frontend
+- Devpost Submission: [https://devpost.com/software/sixthsense-xuw41r]
+- Demo Video: [https://www.youtube.com/watch?v=vNlNHXVv8kw]
